@@ -1,0 +1,16 @@
+body {
+  height: 100vh;
+  margin: 0px;
+  padding: 0px;
+}
+
+.container {
+  height: 100%;
+  width: 100%;
+  background-color: rgb(51, 14, 14);
+}
+.container .task {
+  background-color: rgb(221, 192, 192);
+  height: 100px;
+  width: 200px;
+}/*# sourceMappingURL=style.css.map */
