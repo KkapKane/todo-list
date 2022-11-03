@@ -1,8 +1,54 @@
 $background: rgb(108, 201, 233);
-$navColor: rgb(95, 72, 72);
+$navColor: rgb(110, 175, 163);
+
+@mixin centerAll {
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+.middle {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-left: 2rem;
+  gap: 10px;
+}
+
+.Project {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  
+  font-size: 2rem;
+  border-radius: 15px;
+  height: 4rem;
+  width: 50%;
+  background-color: rgb(56, 136, 173);
+
+taskBtn {
+  font-size: 1rem;
+  display: flex;
+  
+  
+  background-color: rgb(60, 215, 29);
+  grid-column: 4 / 5;
+  grid-row: 2 / 3;
+  height: 50%;
+  width: 50%;
+}
+edit {
+  height: 50%;
+  width: 40%;
+  background-color: yellow;
+  grid-column: 4;
+  grid-row: 1;
+}
+
+}
 
 body {
-  display: flex;
+
   height: 100vh;
   margin: 0px;
   padding: 0px;
@@ -14,45 +60,130 @@ body {
   align-items: center;
   background-color: $navColor;
   height: 100%;
-  width: 20vh;
-  border: 2px solid black;
+  width: 40vh;
+  
   gap: 20px;
 
-  .addFolder {
+  .projectTab {
+    font-size: 2rem;
+    margin: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: none;
+    color: white;
+    width: 100%;
+  }
+  .Projects {
+    font-size: 1rem;
+    display: flex;
+    flex-direction: column;
+    
+    align-items: center;
     padding: 1rem;
+    background-color: none;
+    
+    width: 100%;
+    height: 12rem;
+    transition-duration: 1000ms;
+  }
+  
+  .ProjectInput{
+    display: none;
+    opacity: 1;
+    height: 2rem;
+    width: 18rem;
+    transition-duration: 1000ms;
+  }
+  
+  .addProject {
     color: black;
-    background-color: white;
-    height: 5rem;
-    width: 70%;
-    border-radius: 10px;
-    text-align: center;
-  }
-  .addTask {
     padding: 1rem;
     background-color: white;
-    height: 5rem;
-    width: 70%;
+    height: 1rem;
+    width: 80%;
     border-radius: 10px;
     text-align: center;
+    transition-duration: 300ms;
+
+   
   }
+ 
+  .slide{
+    transform: translateY(10%);
+  }
+  .projCont{
+    display: flex;
+    flex-direction: column;
+    transition-duration: 1000ms;
+    
+  }
+  .btnCont{
+   
+    display: none;
+    padding: 1rem;
+    padding-right: 3rem;
+    gap: 1rem;
+    justify-content: flex-end;
+
+    .submitProject{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      height: 2rem;
+      width: 4rem;
+      background-color: rgb(26, 233, 26);
+    }
+    
+    .cancel{
+      @extend .submitProject;
+      
+      background-color: red;
+    }
+   
+    
+  }
+  
+}
+
+.right {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 .container {
   display: flex;
-  flex-direction: column;
   height: 100%;
   width: 100%;
   background-color: $background;
 
   .topBar {
     width: 100%;
-    height: 15vh;
-    background-color: $navColor;
+    height: 10%;
+    background-color: rgb(168, 246, 174);
   }
+  .taskContainer {
+    height: 40%;
+    width: 50%;
+    background-color: yellow;
+  }
+  
+
 }
 
+
+
+
+
+
+
+
+
 .bg-modal {
-  display: flex;
+  display: none;
   width: 100%;
   height: 100%;
   background-color: rgba($color: #000000, $alpha: 0.8);
@@ -60,6 +191,8 @@ body {
   align-items: center;
   position: absolute;
   top: 0;
+ 
+
 
   .modal-content {
     display: flex;
@@ -67,7 +200,7 @@ body {
     flex-direction: column;
     justify-content: space-between;
     border-radius: 6px;
-    gap: 20px;
+    
     height: 60%;
     width: 50%;
     background-color: rgb(60, 124, 220);
@@ -75,7 +208,7 @@ body {
     .topPart {
       display: flex;
       width: 100%;
-      background-color: rgb(212, 212, 65);
+      background-color: rgb(154, 202, 213);
       padding: 0px;
       margin: 0px;
       justify-content: space-between;
@@ -91,6 +224,7 @@ body {
         padding: 10px;
         font-size: 4rem;
         transform: rotate(45deg);
+        cursor: pointer;
       }
     }
 
@@ -98,46 +232,125 @@ body {
       display: flex;
       height: 100%;
       width: 100%;
-      background-color: red;
-      border: 1px solid black;
+      background-color: rgb(230, 248, 255);
+      
 
       .left-modal {
+        @include centerAll();
+        flex-direction: column;
+        
+        gap: 2rem;
         width: 20%;
         height: 100%;
-        background: yellow;
+        background: rgb(96, 185, 191);
       }
 
       .right-modal {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr 1fr;
         grid-template-rows: 1fr 1fr 1fr 1fr;
+        width: 100%;
 
         .taskNameL {
-            grid-column: 1 / 2
+          display: flex;
+          align-items: center;
+          margin: .4rem;
+          justify-content: flex-start;
+          
+            grid-column: 1 / 4;
+            grid-row: 1 / 2;
         }
 
         .taskName {
-          grid-column: 2 / 5;
+          display: flex;
+          justify-content: flex-start;
+          width: 100%;
+          height: 1rem;
+          grid-column: 1 / 5;
           margin: 1rem;
           background-color: rgb(255, 255, 255);
         }
 
+        .descriptionL {
+          display: flex;
+          
+          justify-content: center;
+          align-items: flex-start;
+          height: 100%;
+          width: 100%;
+          background-color: rgb(230, 248, 255);
+          grid-row: 2 / 4 ;
+          grid-column: 1 /5;
+          .description {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+            height: 100%;
+            margin: 0px;
+            width: 80%;
+          }
+        }
+
         .taskDueL {
-            grid-row: 3 / 4;
+          display: flex;
+          align-items: center;
+          padding: 10px;
+          gap: 15px;
+          justify-content: flex-start;
+          grid-column: 1 / 3;
+            grid-row: 4 / 4;
         }
 
         .taskDue {
          grid-row: 3 / 4;
+         grid-column: 1 / 5;
         }
+        .taskPriorityL{
+          
+          display: flex;
+          justify-content: space-around;
+          grid-column: 1 / 3;
+          grid-row: 5;
+          
+          .LP {
+            @include centerAll();
+            background-color: none;
+            height: 30%;
+            padding: 10px;
+            border: 2px solid green;
 
-        .taskPriority {
-            grid-row: 4 / 5;
+            &:hover {
+              background-color: green;
+            }
+          }
+
+          .MP {
+            @extend .LP;
+            
+            border: 2px solid yellow;
+            &:hover {
+              background-color: yellow;
+            }
+          }
+
+          .HP {
+           @extend .LP;
+            border: 2px solid red;
+            &:hover {
+              background-color: red;
+            }
+          }
+
         }
+        
         .test {
-            grid-row: 4/5;
+          margin: 20px;
+            grid-row: 5/5;
             grid-column: 4/5;
         }
       }
     }
   }
+
+  
 }
