@@ -19,16 +19,22 @@ align-items: center;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr;
-  
+  align-items: end;
+  justify-content: end;
   font-size: 2rem;
-  border-radius: 15px;
+  border-radius: 12px;
   height: 4rem;
   width: 50%;
   background-color: rgb(56, 136, 173);
 
+  &:hover {
+    box-shadow: 2px 2px 2px 2px rgb(34, 68, 96);
+    transition-duration: 200ms;
+  }
+
 taskBtn {
   font-size: 1rem;
-  display: flex;
+  display: none;
   
   
   background-color: rgb(60, 215, 29);
@@ -38,12 +44,47 @@ taskBtn {
   width: 50%;
 }
 edit {
+  display: none;
   height: 50%;
   width: 40%;
   background-color: yellow;
   grid-column: 4;
   grid-row: 1;
 }
+
+closeBtn {
+  color: white;
+display: flex;
+justify-content: center;
+align-items: center;
+transform: rotate(45deg);
+  justify-self: self-end;
+  align-self: start;
+  width: 12px;
+  height: 12px;
+  grid-row: 1;
+  grid-column: 3;
+  padding: 2px;
+  border-radius: 12px;
+  background-color: red;
+  cursor: pointer;
+}
+
+img {
+  transform: rotate(270deg);
+  grid-column: 5;
+  
+  justify-self: end;
+  cursor: pointer;
+  transition: transform 1000ms;
+
+
+
+}
+.rotate {
+  transform: rotate(360deg);
+}
+
 
 }
 
@@ -60,7 +101,7 @@ body {
   align-items: center;
   background-color: $navColor;
   height: 100%;
-  width: 40vh;
+  width: 60vh;
   
   gap: 20px;
 

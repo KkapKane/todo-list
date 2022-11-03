@@ -1,4 +1,7 @@
 import "./style.scss";
+import ExpandArrow from './expand.svg'
+
+
 
 let taskPriority = undefined;
 var projectArray = [];
@@ -116,10 +119,14 @@ function appendProject() {
 
 
 function makeProjectDiv() {
+  const ArrowPic = new Image();
+  ArrowPic.src = ExpandArrow;
+
   const projDiv = document.createElement('div');
   const addTaskBtn = document.createElement('taskBtn');
   const editBtn = document.createElement('edit')
-  const closeBtn = document.createElement('close')
+  const closeBtn = document.createElement('closeBtn')
+  closeBtn.textContent = '+'
   addTaskBtn.textContent = 'Add Task'
   
   projDiv.classList.add('Project')
@@ -127,14 +134,33 @@ function makeProjectDiv() {
   projDiv.textContent = projectArray.slice(-1)
   
   middle.appendChild(projDiv);
-  
+
   projDiv.appendChild(addTaskBtn);
   projDiv.appendChild(editBtn);
+  projDiv.appendChild(closeBtn);
+  projDiv.appendChild(ArrowPic);
+
+  
+  
 
 }
 
 
+document.querySelector('body').addEventListener('click', function (event) {
+    if (event.target.tagName.toLowerCase() === 'img') {
+      
+    
+      event.target.classList.toggle('rotate');
+      console.log('hi')
+    }
+})
 
+document.querySelector('body').addEventListener('click', function (event) {
+  if (event.target.tagName.toLowerCase() == 'closebtn')
+  {
+    event.target.parentElement.remove();
+    }
+})
 
 document.querySelector(".test").addEventListener("click", AddTask);
 
