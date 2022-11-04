@@ -15,15 +15,22 @@ class Project {
 }
 
 class Task {
-  constructor(title, priority, dueDate, description) {
+  constructor(title, priority, dueDate, description, project) {
     this.title = title;
     this.dueDate = dueDate;
     this.priority = priority;
     this.description = description;
+    this.project = project;
     this.finish = false;
   }
   Task2List() {
-    taskArray.push([this.title, this.priority, this.dueDate, this.description]);
+    taskArray.push([
+      this.title,
+      this.priority,
+      this.dueDate,
+      this.description,
+      this.project,
+    ]);
     console.log(taskArray);
     return this;
   }
@@ -74,6 +81,13 @@ HighPrio.addEventListener("click", function () {
   lowPrio.style.backgroundColor = "rgb(230, 248, 255)";
   medPrio.style.backgroundColor = "rgb(230, 248, 255)";
 });
+var taskProject;
+document.querySelector("body").addEventListener("click", function (event) {
+  if (event.target.tagName.toLowerCase() === "taskbtn") {
+    taskProject = event.target.id;
+    console.log(event.target.id);
+  }
+});
 
 function AddTask() {
   if (taskPriority == undefined) {
@@ -84,7 +98,13 @@ function AddTask() {
   let taskName = document.querySelector(".taskName").value;
   let description = document.querySelector(".description").value;
   let taskDue = document.querySelector(".taskDue").value;
-  var tasks = new Task(taskName, taskPriority, taskDue, description);
+  var tasks = new Task(
+    taskName,
+    taskPriority,
+    taskDue,
+    description,
+    taskProject
+  );
   tasks.Task2List();
   document.querySelector(".bg-modal").style.display = "none";
 }
@@ -106,14 +126,17 @@ function makeProjectDiv() {
   const tab = document.createElement("tabDiv");
   const detail = document.createElement("detail");
   const projDiv = document.createElement("div");
+
   const tabBtnContainer = document.createElement("tabBtnContainer");
   let addTaskBtn = document.createElement("taskBtn");
+  addTaskBtn.setAttribute("id", projectArray.slice(-1));
+  detail.setAttribute("id", projectArray.slice(-1));
   const editBtn = document.createElement("edit");
   const closeBtn = document.createElement("closeBtn");
   closeBtn.textContent = "+";
 
   projDiv.classList.add("Project");
-  projDiv.setAttribute("id", projectArray.length);
+  projDiv.setAttribute("id", projectArray.slice(-1));
   projDiv.textContent = projectArray.slice(-1);
 
   middle.appendChild(projDiv);
@@ -128,17 +151,20 @@ function makeProjectDiv() {
   projDiv.appendChild(ArrowPic);
 }
 
-function makeTaskDiv() {
-  document.querySelector("body").addEventListener("click", function (event) {
-    if (event.target.classList == "test") {
-      console.log("ye");
-      const testtask = document.createElement("task");
-      testtask.setAttribute("id", "Tasknum");
-      document.querySelector("tabDiv").appendChild(testtask);
-    }
-  });
-}
+//FUNCTION TO MAKE TASK DIV LIST
+/* function makeTaskDiv() {
+  const realtaskList = document.querySelector(".realtaskList");
+  const tasklistdiv = document.createElement("testingdiv");
 
+  tasklistdiv.setAttribute("id", taskProject);
+  removeAllChild(document.querySelector(".realtaskList"));
+
+ 
+
+  realtaskList.appendChild(tasklistdiv);
+} */
+
+// listen to body for click on tagnam img
 document.querySelector("body").addEventListener("click", function (event) {
   if (event.target.tagName.toLowerCase() === "img") {
     event.target.parentElement.querySelector("taskBtn").style.display = "none";
@@ -162,6 +188,26 @@ document.querySelector("body").addEventListener("click", function (event) {
 
   if (event.target.tagName.toLowerCase() === "taskbtn") {
     document.querySelector(".bg-modal").style.display = "flex";
+    document.querySelector(".topText").textContent =
+      "Project:" + " " + taskProject;
+  }
+
+  if (event.target.tagName.toLowerCase() === "detail") {
+    console.log(event.target.id);
+    document.querySelector(".detailModal").style.display = "flex";
+    let tempArr = [];
+    for (let i = 0; i < taskArray.length; i++) {
+      if (taskArray[i][4] == event.target.id) {
+        tempArr.push(taskArray[i]);
+      }
+    }
+
+    document.querySelector(".realtaskList").textContent = tempArr;
+    return tempArr;
+  }
+  if (event.target.classList == "detailClose") {
+    console.log("hi");
+    document.querySelector(".detailModal").style.display = "none";
   }
 });
 
@@ -173,5 +219,12 @@ document.querySelector("body").addEventListener("click", function (event) {
 
 document.querySelector(".test").addEventListener("click", function () {
   AddTask();
-  makeTaskDiv();
+  /*  makeTaskDiv(); */
 });
+
+//function that removes all child from parent
+function removeAllChild(parent) {
+  while (parent.firstChild) {
+    parent.removeChild(parent.firstChild);
+  }
+}

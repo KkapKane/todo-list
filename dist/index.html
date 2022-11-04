@@ -9,69 +9,75 @@
   <body>
     <script src="main.js" defer></script>
 
-    
-
     <div class="container">
-      
-      
-     
-      
-              <div class="sideBar">
-              <div class="home"></div>
-              <label for="Projects" class="projectTab"> Projects
-              <div class="Projects">
-              <div class="projCont">
-                <input type="text" class="ProjectInput" placeholder="Enter Project Name">
-                <div class="btnCont">
-                  <div class="submitProject">Add</div>
-                  <div class="cancel">Cancel</div>
-                </div>
-              
+      <div class="sideBar">
+        <div class="home"></div>
+        <label for="Projects" class="projectTab">
+          Projects
+          <div class="Projects">
+            <div class="projCont">
+              <input
+                type="text"
+                class="ProjectInput"
+                placeholder="Enter Project Name"
+              />
+              <div class="btnCont">
+                <div class="submitProject">Add</div>
+                <div class="cancel">Cancel</div>
               </div>
-                
-                
-                <div class="addProject">Add Project</div> 
-              
-              </div></label>
-                
-                
-              </div>
-<div class="right">
-              <div class="topBar"></div>
-        <div class="middle"></div>
-        </div>
-      
-    </div>
+            </div>
 
+            <div class="addProject">Add Project</div>
+          </div></label
+        >
+      </div>
+      <div class="right">
+        <div class="topBar"></div>
+        <div class="middle"></div>
+      </div>
+    </div>
+    <div class="detailModal">
+      <div class="taskList">
+        <div class="titleBar">
+          Task
+          <div class="detailClose">X</div>
+        </div>
+        <div class="realtaskList"></div>
+      </div>
+    </div>
     <div class="bg-modal">
-      
-       <div class="modal-content">
+      <div class="modal-content">
         <div class="topPart">
-            <div class="topText">Create a new...</div> 
-            <div class="close">+</div>
+          <div class="topText">Create a new...</div>
+          <div class="close">+</div>
         </div>
         <div class="mid">
-        
-        <div class="right-modal">
-         <label for="taskName" class="taskNameL">Title: 
-        <input type="text" class="taskName"></label>   
-        <label for="description" class="descriptionL">
-        <textarea class="description" type="text" placeholder="Description..."></textarea></label>  
-        
-        <label for="Due Date:" class="taskDueL">Due:
-        <input type="date" class="taskDue">
-      </label>
-      <label for="taskPriority" class="taskPriorityL">Priority: 
-        <div class="LP">LOW</div>
-        <div class="MP">MEDIUM</div>
-        <div class="HP">HIGH</div>
-      
-      
-      </label>
-        <button class="test">Add Task</button>
+          <div class="right-modal">
+            <label for="taskName" class="taskNameL"
+              >Title: <input type="text" class="taskName"
+            /></label>
+            <label for="description" class="descriptionL">
+              <textarea
+                class="description"
+                type="text"
+                placeholder="Description..."
+              ></textarea>
+            </label>
+
+            <label for="Due Date:" class="taskDueL"
+              >Due:
+              <input type="date" class="taskDue" />
+            </label>
+            <label for="taskPriority" class="taskPriorityL"
+              >Priority:
+              <div class="LP">LOW</div>
+              <div class="MP">MEDIUM</div>
+              <div class="HP">HIGH</div>
+            </label>
+            <button class="test">Add Task</button>
+          </div>
         </div>
-        </div>
-        </div>
+      </div>
     </div>
   </body>
 </html>

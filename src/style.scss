@@ -121,6 +121,7 @@ $navColor: rgb(110, 175, 163);
     align-self: center;
     height: 100%;
     width: 100%;
+    cursor: pointer;
     border-radius: 5px;
     background-color: rgb(255, 255, 255);
     transition: height 1000ms;
@@ -432,4 +433,55 @@ body {
       }
     }
   }
+}
+
+.detailModal {
+  color: white;
+  display: flex;
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba($color: #000000, $alpha: 0.8);
+  justify-content: center;
+  align-items: center;
+
+  .taskList {
+    display: flex;
+    flex-direction: column;
+    height: 50%;
+    width: 50%;
+    background-color: rgb(22, 11, 11);
+
+    .titleBar {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+
+      justify-content: space-evenly;
+      font-size: 2rem;
+      position: relative;
+      text-align: end;
+      top: -18px;
+      margin: 0;
+      padding: 0;
+      height: 10%;
+      width: 100%;
+      background-color: grey;
+
+      .detailClose {
+        grid-column: 2;
+        padding-right: 1rem;
+        justify-self: end;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+testingdiv {
+  display: flex;
+  align-self: center;
+  height: 100%;
+  width: 80%;
+  background-color: rgb(101, 101, 16);
 }
