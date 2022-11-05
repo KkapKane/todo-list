@@ -1,6 +1,6 @@
 import "./style.scss";
 import ExpandArrow from "./expand.svg";
-
+var taskProject;
 let taskPriority = undefined;
 var projectArray = [];
 let taskArray = [];
@@ -69,87 +69,20 @@ lowPrio.addEventListener("click", function () {
   medPrio.style.backgroundColor = "rgb(230, 248, 255)";
   HighPrio.style.backgroundColor = "rgb(230, 248, 255)";
 });
+
 medPrio.addEventListener("click", function () {
   taskPriority = "Medium";
   this.style.backgroundColor = "yellow";
   lowPrio.style.backgroundColor = "rgb(230, 248, 255)";
   HighPrio.style.backgroundColor = "rgb(230, 248, 255)";
 });
+
 HighPrio.addEventListener("click", function () {
   taskPriority = "High";
   this.style.backgroundColor = "red";
   lowPrio.style.backgroundColor = "rgb(230, 248, 255)";
   medPrio.style.backgroundColor = "rgb(230, 248, 255)";
 });
-var taskProject;
-document.querySelector("body").addEventListener("click", function (event) {
-  if (event.target.tagName.toLowerCase() === "taskbtn") {
-    taskProject = event.target.id;
-    console.log(event.target.id);
-  }
-});
-
-function AddTask() {
-  if (taskPriority == undefined) {
-    alert("please choose a priority");
-    return;
-  }
-
-  let taskName = document.querySelector(".taskName").value;
-  let description = document.querySelector(".description").value;
-  let taskDue = document.querySelector(".taskDue").value;
-  var tasks = new Task(
-    taskName,
-    taskPriority,
-    taskDue,
-    description,
-    taskProject
-  );
-  tasks.Task2List();
-  document.querySelector(".bg-modal").style.display = "none";
-}
-
-function appendProject() {
-  let pname = document.querySelector(".ProjectInput").value;
-  var project = new Project(pname);
-
-  project.pushProject();
-
-  makeProjectDiv();
-  console.log(projectArray);
-}
-
-function makeProjectDiv() {
-  const ArrowPic = new Image();
-  ArrowPic.src = ExpandArrow;
-  const right = document.querySelector(".right");
-  const tab = document.createElement("tabDiv");
-  const detail = document.createElement("detail");
-  const projDiv = document.createElement("div");
-
-  const tabBtnContainer = document.createElement("tabBtnContainer");
-  let addTaskBtn = document.createElement("taskBtn");
-  addTaskBtn.setAttribute("id", projectArray.slice(-1));
-  detail.setAttribute("id", projectArray.slice(-1));
-  const editBtn = document.createElement("edit");
-  const closeBtn = document.createElement("closeBtn");
-  closeBtn.textContent = "+";
-
-  projDiv.classList.add("Project");
-  projDiv.setAttribute("id", projectArray.slice(-1));
-  projDiv.textContent = projectArray.slice(-1);
-
-  middle.appendChild(projDiv);
-
-  projDiv.appendChild(tab);
-  tabBtnContainer.appendChild(detail);
-  tab.appendChild(tabBtnContainer);
-  tabBtnContainer.appendChild(addTaskBtn);
-  tabBtnContainer.appendChild(editBtn);
-
-  projDiv.appendChild(closeBtn);
-  projDiv.appendChild(ArrowPic);
-}
 
 // listen to body for click on tagnam img
 document.querySelector("body").addEventListener("click", function (event) {
@@ -162,6 +95,13 @@ document.querySelector("body").addEventListener("click", function (event) {
     event.target.parentElement
       .querySelector("tabDiv")
       .classList.toggle("scrollSlide");
+  }
+  if (event.target.tagName.toLowerCase() == "closebtn") {
+    event.target.parentElement.remove();
+  }
+  if (event.target.tagName.toLowerCase() === "taskbtn") {
+    taskProject = event.target.id;
+    console.log(event.target.id);
   }
   if (event.target.classList == "rotate") {
     event.target.parentElement.querySelector("taskBtn").style.display = "flex";
@@ -217,12 +157,6 @@ document.querySelector("body").addEventListener("click", function (event) {
   }
 });
 
-document.querySelector("body").addEventListener("click", function (event) {
-  if (event.target.tagName.toLowerCase() == "closebtn") {
-    event.target.parentElement.remove();
-  }
-});
-
 document.querySelector(".test").addEventListener("click", function () {
   AddTask();
 });
@@ -232,4 +166,66 @@ function removeAllChild(parent) {
   while (parent.firstChild) {
     parent.removeChild(parent.firstChild);
   }
+}
+
+function makeProjectDiv() {
+  const ArrowPic = new Image();
+  ArrowPic.src = ExpandArrow;
+  const right = document.querySelector(".right");
+  const tab = document.createElement("tabDiv");
+  const detail = document.createElement("detail");
+  const projDiv = document.createElement("div");
+
+  const tabBtnContainer = document.createElement("tabBtnContainer");
+  let addTaskBtn = document.createElement("taskBtn");
+  addTaskBtn.setAttribute("id", projectArray.slice(-1));
+  detail.setAttribute("id", projectArray.slice(-1));
+  const editBtn = document.createElement("edit");
+  const closeBtn = document.createElement("closeBtn");
+  closeBtn.textContent = "+";
+
+  projDiv.classList.add("Project");
+  projDiv.setAttribute("id", projectArray.slice(-1));
+  projDiv.textContent = projectArray.slice(-1);
+
+  middle.appendChild(projDiv);
+
+  projDiv.appendChild(tab);
+  tabBtnContainer.appendChild(detail);
+  tab.appendChild(tabBtnContainer);
+  tabBtnContainer.appendChild(addTaskBtn);
+  tabBtnContainer.appendChild(editBtn);
+
+  projDiv.appendChild(closeBtn);
+  projDiv.appendChild(ArrowPic);
+}
+
+function appendProject() {
+  let pname = document.querySelector(".ProjectInput").value;
+  var project = new Project(pname);
+
+  project.pushProject();
+
+  makeProjectDiv();
+  document.querySelector(".ProjectInput").value = "";
+}
+
+function AddTask() {
+  if (taskPriority == undefined) {
+    alert("please choose a priority");
+    return;
+  }
+
+  let taskName = document.querySelector(".taskName").value;
+  let description = document.querySelector(".description").value;
+  let taskDue = document.querySelector(".taskDue").value;
+  var tasks = new Task(
+    taskName,
+    taskPriority,
+    taskDue,
+    description,
+    taskProject
+  );
+  tasks.Task2List();
+  document.querySelector(".bg-modal").style.display = "none";
 }
