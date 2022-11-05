@@ -151,19 +151,6 @@ function makeProjectDiv() {
   projDiv.appendChild(ArrowPic);
 }
 
-//FUNCTION TO MAKE TASK DIV LIST
-/* function makeTaskDiv() {
-  const realtaskList = document.querySelector(".realtaskList");
-  const tasklistdiv = document.createElement("testingdiv");
-
-  tasklistdiv.setAttribute("id", taskProject);
-  removeAllChild(document.querySelector(".realtaskList"));
-
- 
-
-  realtaskList.appendChild(tasklistdiv);
-} */
-
 // listen to body for click on tagnam img
 document.querySelector("body").addEventListener("click", function (event) {
   if (event.target.tagName.toLowerCase() === "img") {
@@ -193,18 +180,26 @@ document.querySelector("body").addEventListener("click", function (event) {
   }
 
   if (event.target.tagName.toLowerCase() === "detail") {
-    console.log(event.target.id);
     document.querySelector(".detailModal").style.display = "flex";
+
     let tempArr = [];
+    const realtaskList = document.querySelector(".realtaskList");
+    removeAllChild(realtaskList);
     for (let i = 0; i < taskArray.length; i++) {
       if (taskArray[i][4] == event.target.id) {
         tempArr.push(taskArray[i]);
       }
-    }
 
-    document.querySelector(".realtaskList").textContent = tempArr;
-    return tempArr;
+      if (taskArray[i][4] == event.target.id) {
+        var listOfTask = document.createElement("divfortask");
+        listOfTask.setAttribute("id", event.target.id);
+
+        listOfTask.textContent = tempArr.slice(-1);
+        realtaskList.appendChild(listOfTask);
+      }
+    }
   }
+
   if (event.target.classList == "detailClose") {
     console.log("hi");
     document.querySelector(".detailModal").style.display = "none";
@@ -219,7 +214,6 @@ document.querySelector("body").addEventListener("click", function (event) {
 
 document.querySelector(".test").addEventListener("click", function () {
   AddTask();
-  /*  makeTaskDiv(); */
 });
 
 //function that removes all child from parent
