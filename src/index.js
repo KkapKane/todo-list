@@ -193,8 +193,19 @@ document.querySelector("body").addEventListener("click", function (event) {
       if (taskArray[i][4] == event.target.id) {
         var listOfTask = document.createElement("divfortask");
         listOfTask.setAttribute("id", event.target.id);
+        const taskTitle = document.createElement("taskTitle");
+        const taskDes = document.createElement("taskDes");
+        const taskDD = document.createElement("taskDD");
+        const taskPrio = document.createElement("taskPrio");
+        taskDes.textContent = tempArr.slice(-1)[0][3];
+        taskTitle.textContent = tempArr.slice(-1)[0][0];
+        taskDD.textContent = tempArr.slice(-1)[0][2];
+        taskPrio.textContent = tempArr.slice(-1)[0][1];
+        listOfTask.appendChild(taskTitle);
 
-        listOfTask.textContent = tempArr.slice(-1);
+        listOfTask.appendChild(taskDes);
+        listOfTask.appendChild(taskDD);
+        listOfTask.appendChild(taskPrio);
         realtaskList.appendChild(listOfTask);
       }
     }
