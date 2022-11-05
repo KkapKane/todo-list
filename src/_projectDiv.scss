@@ -1,0 +1,133 @@
+.Project {
+  display: grid;
+  position: relative;
+  padding: 1rem;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  align-items: end;
+  justify-content: end;
+  font-size: 1rem;
+  border-radius: 12px;
+  height: 4rem;
+  width: 50%;
+  background-color: $projectDiv;
+
+  &:hover {
+    box-shadow: 2px 2px 2px 2px rgb(34, 68, 96);
+    transition-duration: 200ms;
+  }
+  tabbtncontainer {
+    display: flex;
+
+    justify-content: space-around;
+    align-items: center;
+    grid-column: 1/6;
+    box-shadow: 2px 2px 2px 2px black;
+    grid-row: 1;
+  }
+  taskBtn {
+    font-size: 0.6rem;
+    display: none;
+
+    background-color: $taskBtnDiv;
+
+    border-radius: 5px;
+    justify-content: center;
+    align-items: center;
+    justify-self: center;
+    align-self: center;
+    cursor: pointer;
+
+    height: 100%;
+    width: 100%;
+  }
+  task {
+    height: 40%;
+    width: 100%;
+    background-color: rgb(103, 41, 41);
+  }
+  edit {
+    display: none;
+
+    justify-self: center;
+    align-self: center;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+
+    border-radius: 5px;
+    background-color: yellow;
+  }
+
+  closeBtn {
+    position: absolute;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: rotate(45deg);
+    justify-self: self-end;
+    align-self: start;
+    width: 12px;
+    height: 12px;
+    top: -15px;
+    right: 5px;
+    grid-row: 1;
+    grid-column: 3;
+    padding: 2px;
+    border-radius: 12px;
+    background-color: red;
+    cursor: pointer;
+  }
+
+  img {
+    transform: rotate(270deg);
+    grid-column: 5;
+
+    justify-self: end;
+    cursor: pointer;
+    transition: transform 300ms;
+  }
+  .rotate {
+    transform: rotate(360deg);
+  }
+
+  detail {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    justify-self: center;
+    align-self: center;
+    height: 100%;
+    width: 100%;
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: rgb(255, 255, 255);
+    transition: height 1000ms;
+
+    .growheight {
+      height: 400%;
+    }
+  }
+
+  tabDiv {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-row: 1;
+
+    position: absolute;
+    top: 10;
+    height: 0%;
+    width: 100%;
+    opacity: 0%;
+    background-color: rgb(56, 136, 173);
+    transition: opacity 300ms, height 300ms;
+  }
+
+  .scrollSlide {
+    height: 30%;
+    opacity: 100%;
+  }
+}
