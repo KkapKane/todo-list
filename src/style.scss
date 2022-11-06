@@ -1,9 +1,8 @@
-$background: rgb(108, 201, 233);
-$navColor: rgb(110, 175, 163);
 @import url("https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Silkscreen&display=swap");
 @import "./addTaskModal";
 @import "./variables";
 @import "./projectDiv";
+@import "./editModal";
 
 body {
   font-family: "Roboto";
@@ -68,7 +67,7 @@ body {
   .addProject {
     color: black;
     padding: 1rem;
-    background-color: white;
+    background-color: $addProjectBtn;
     height: 1rem;
     width: 80%;
     border-radius: 10px;
@@ -98,13 +97,13 @@ body {
 
       height: 2rem;
       width: 4rem;
-      background-color: rgb(26, 233, 26);
+      background-color: $submitProjBtn;
     }
 
     .cancel {
       @extend .submitProject;
 
-      background-color: red;
+      background-color: $cancelProjBtn;
     }
   }
 }
@@ -124,7 +123,8 @@ body {
   .topBar {
     width: 100%;
     height: 10%;
-    background-color: rgb(168, 246, 174);
+    box-shadow: 3px 1px 2px 2px #fca311;
+    background-color: $topBar;
   }
   .taskContainer {
     height: 40%;
@@ -146,17 +146,31 @@ body {
   align-items: center;
 
   .headerLabel {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
 
     width: 100%;
     height: 10%;
-    gap: 10rem;
+
     align-items: flex-end;
     background-color: rgb(70, 70, 67);
 
     .tName {
       padding-left: 2rem;
-      font-size: 2rem;
+      width: 1fr;
+      grid-column: 1;
+    }
+    .tDescription {
+      width: 1fr;
+      grid-column: 2;
+    }
+    .tDueDate {
+      grid-column: 3;
+      width: 1fr;
+    }
+    .tPriority {
+      grid-column: 4;
+      width: 1fr;
     }
   }
   .taskList {
@@ -169,7 +183,7 @@ body {
     divfortask {
       display: grid;
       text-overflow: ellipsis;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(5, 1fr);
       margin-top: 1rem;
       border-radius: 15px;
       gap: 10px;
