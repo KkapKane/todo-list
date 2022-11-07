@@ -6,13 +6,14 @@ let taskPriority = undefined;
 var projectArray = [];
 var taskArray = [];
 var nav = "#10274e";
-console.log(taskArray.length);
+
 class Project {
   constructor(projectName) {
     this.ProjectName = projectName;
   }
   pushProject() {
     projectArray.push(this.ProjectName);
+    localStorage["projectArray"] = JSON.stringify(projectArray);
   }
 }
 
@@ -35,17 +36,20 @@ class Task {
       this.project,
       this.show,
     ]);
-    console.log(taskArray);
-    return this;
+    localStorage["taskArray"] = JSON.stringify(taskArray);
   }
 }
 
+//Label things
 const closeBtn = document.querySelector(".close");
 const addProject = document.querySelector(".addProject");
 const bgModal = document.querySelector(".bg-modal");
 const lowPrio = document.querySelector(".LP");
 const medPrio = document.querySelector(".MP");
 const HighPrio = document.querySelector(".HP");
+const editlowPrio = document.querySelector(".edit-LP");
+const editmedPrio = document.querySelector(".edit-MP");
+const editHighPrio = document.querySelector(".edit-HP");
 const AppendBtn = document.querySelector(".submitProject");
 const middle = document.querySelector(".middle");
 
@@ -66,6 +70,8 @@ addProject.addEventListener("click", function () {
 closeBtn.addEventListener("click", function () {
   bgModal.style.display = "none";
 });
+
+//listen to all priority boxes
 
 lowPrio.addEventListener("click", function () {
   taskPriority = "Low";
@@ -88,39 +94,90 @@ HighPrio.addEventListener("click", function () {
   medPrio.style.backgroundColor = nav;
 });
 
+editlowPrio.addEventListener("click", function () {
+  taskPriority = "Low";
+  this.style.backgroundColor = "green";
+  medPrio.style.backgroundColor = nav;
+  HighPrio.style.backgroundColor = nav;
+});
+
+editmedPrio.addEventListener("click", function () {
+  taskPriority = "Medium";
+  this.style.backgroundColor = "yellow";
+  lowPrio.style.backgroundColor = nav;
+  HighPrio.style.backgroundColor = nav;
+});
+
+editHighPrio.addEventListener("click", function () {
+  taskPriority = "High";
+  this.style.backgroundColor = "red";
+  lowPrio.style.backgroundColor = nav;
+  medPrio.style.backgroundColor = nav;
+});
+
 // listen to body for click on tagnam img
 document.querySelector("body").addEventListener("click", function (event) {
+  //clear all button
+  if (event.target.classList == "ClearAll") {
+    localStorage.clear();
+    localStorage.setItem("projectArray", "[]");
+    localStorage.setItem("taskArray", "[]");
+    window.location.reload();
+  }
+
+  //Edit Button
   if (event.target.tagName.toLowerCase() === "edit") {
-    var currentid = parseInt(event.target.parentElement.parentElement.id);
-    console.log(currentid);
     console.log(event.target.parentElement.parentElement.id);
     document
       .querySelector(".edit-test")
       .setAttribute("id", event.target.parentElement.parentElement.id);
 
-    document.querySelector(".edit-taskName").textContent =
+    document.querySelector(".edit-taskName").value =
       taskArray[event.target.parentElement.parentElement.id][0];
-
-    document.querySelector(".edit-description").textContent =
+    document.querySelector(".edit-description").value =
       taskArray[event.target.parentElement.parentElement.id][3];
-    document.querySelector(".edit-taskDue").textContent =
+    document.querySelector(".edit-taskDue").value =
       taskArray[event.target.parentElement.parentElement.id][2];
     document.querySelector(".edit-bg-modal").style.display = "flex";
   }
+  //Submit Edit button
   if (event.target.classList == "edit-test") {
     if (taskPriority == undefined) {
       alert("please choose a priority");
       return;
     }
-
+    taskArray[event.target.id][1] = taskPriority;
+    taskArray[event.target.id][0] =
+      document.querySelector(".edit-taskName").value;
+    taskArray[event.target.id][3] =
+      document.querySelector(".edit-description").value;
+    taskArray[event.target.id][2] =
+      document.querySelector(".edit-taskDue").value;
     console.log(taskArray);
+    document.querySelector(".edit-bg-modal").style.display = "none";
+  }
+  //Checkbox
+  if (event.target.type == "checkbox") {
+    console.log(event.target.value);
+    if (event.target.checked) {
+      document.querySelector("divfortask").style.backgroundColor = "grey";
+    } else {
+      document.querySelector("divfortask").style.backgroundColor =
+        "rgb(208, 205, 64)";
+    }
+  }
+  //close out edit modal button
+  if (event.target.classList == "edit-close") {
+    document.querySelector(".edit-bg-modal").style.display = "none";
   }
   if (event.target.tagName.toLowerCase() === "remove") {
-    console.log(taskArray.length);
-    event.target.parentElement.parentElement.remove();
-    console.log(event.target.parentElement.parentElement);
     taskArray[event.target.parentElement.parentElement.id][5] = "false";
+
+    console.log(stored_Task);
+    event.target.parentElement.parentElement.remove();
+    localStorage["taskArray"] = JSON.stringify(taskArray);
   }
+  //expand arrow button
   if (event.target.tagName.toLowerCase() === "img") {
     event.target.parentElement.querySelector("taskBtn").style.display = "none";
 
@@ -131,9 +188,13 @@ document.querySelector("body").addEventListener("click", function (event) {
       .querySelector("tabDiv")
       .classList.toggle("scrollSlide");
   }
+  //delete project X button
   if (event.target.tagName.toLowerCase() == "closebtn") {
     event.target.parentElement.remove();
+    projectArray.splice(projectArray.indexOf(event.target.parentElement.id), 1);
+    localStorage["projectArray"] = JSON.stringify(projectArray);
   }
+  //add task Button
   if (event.target.tagName.toLowerCase() === "taskbtn") {
     taskProject = event.target.id;
   }
@@ -151,49 +212,11 @@ document.querySelector("body").addEventListener("click", function (event) {
     document.querySelector(".topText").textContent =
       "Project:" + " " + taskProject;
   }
-
+  //detail button brings up detail modal
   if (event.target.tagName.toLowerCase() === "detail") {
     document.querySelector(".detailModal").style.display = "flex";
 
-    let tempArr = [];
-
-    const realtaskList = document.querySelector(".realtaskList");
-    removeAllChild(realtaskList);
-    for (let i = 0; i < taskArray.length; i++) {
-      if (taskArray[i][4] === undefined || taskArray[i] === undefined) {
-        return;
-      }
-      if (taskArray[i][4] == event.target.id && taskArray[i][5] == "true") {
-        tempArr.push(taskArray[i]);
-
-        if (taskArray[i][4] == event.target.id) {
-          var listOfTask = document.createElement("divfortask");
-          listOfTask.setAttribute("id", i);
-          const taskTitle = document.createElement("taskTitle");
-          const taskDes = document.createElement("taskDes");
-          const taskDD = document.createElement("taskDD");
-          const taskPrio = document.createElement("taskPrio");
-          const editBtn = document.createElement("edit");
-          const RmBtn = document.createElement("remove");
-          const editRmBtnContainer = document.createElement("thosebtns");
-          editBtn.textContent = "Edit";
-          RmBtn.textContent = "Remove";
-          taskDes.textContent = tempArr.slice(-1)[0][3];
-          taskTitle.textContent = tempArr.slice(-1)[0][0];
-          taskDD.textContent = tempArr.slice(-1)[0][2];
-          taskPrio.textContent = tempArr.slice(-1)[0][1];
-          listOfTask.appendChild(taskTitle);
-
-          listOfTask.appendChild(taskDes);
-          listOfTask.appendChild(taskDD);
-          listOfTask.appendChild(taskPrio);
-          listOfTask.appendChild(editRmBtnContainer);
-          editRmBtnContainer.appendChild(editBtn);
-          editRmBtnContainer.appendChild(RmBtn);
-          realtaskList.appendChild(listOfTask);
-        }
-      }
-    }
+    showThing();
   }
 
   if (event.target.classList == "detailClose") {
@@ -203,7 +226,6 @@ document.querySelector("body").addEventListener("click", function (event) {
 
 document.querySelector(".test").addEventListener("click", function () {
   AddTask();
-  console.log(taskArray.length);
 });
 
 //function that removes all child from parent
@@ -213,6 +235,7 @@ function removeAllChild(parent) {
   }
 }
 
+//Makes the project Div and also append to project array
 function makeProjectDiv() {
   const ArrowPic = new Image();
   ArrowPic.src = ExpandArrow;
@@ -244,6 +267,25 @@ function makeProjectDiv() {
   projDiv.appendChild(ArrowPic);
 }
 
+function appendStorage() {
+  for (let i = 0; i < stored_datas.length; i++) {
+    var newProj = new Project(stored_datas[i]);
+    newProj.pushProject();
+    makeProjectDiv();
+  }
+  for (let i = 0; i < stored_Task.length; i++) {
+    var newTask = new Task(
+      stored_Task[i][0],
+      stored_Task[i][1],
+      stored_Task[i][2],
+      stored_Task[i][3],
+      stored_Task[i][4],
+      stored_Task[i][5]
+    );
+    newTask.Task2List();
+  }
+}
+
 function appendProject() {
   let pname = document.querySelector(".ProjectInput").value;
   var project = new Project(pname);
@@ -254,6 +296,7 @@ function appendProject() {
   document.querySelector(".ProjectInput").value = "";
 }
 
+//creates new task using task class and set the value to the inputbox value
 function AddTask() {
   if (taskPriority == undefined) {
     alert("please choose a priority");
@@ -275,3 +318,67 @@ function AddTask() {
   tasks.Task2List();
   document.querySelector(".bg-modal").style.display = "none";
 }
+
+//filter out elements in array to show the non-deleted task
+function showThing() {
+  let tempArr = [];
+
+  const realtaskList = document.querySelector(".realtaskList");
+  removeAllChild(realtaskList);
+  for (let i = 0; i < taskArray.length; i++) {
+    if (taskArray[i][4] === undefined || taskArray[i] === undefined) {
+      return;
+    }
+    if (taskArray[i][4] == event.target.id && taskArray[i][5] == "true") {
+      tempArr.push(taskArray[i]);
+
+      if (taskArray[i][4] == event.target.id) {
+        var listOfTask = document.createElement("divfortask");
+        listOfTask.setAttribute("id", i);
+        const taskTitle = document.createElement("taskTitle");
+        const taskDes = document.createElement("taskDes");
+        const taskDD = document.createElement("taskDD");
+        const taskPrio = document.createElement("taskPrio");
+        const editBtn = document.createElement("edit");
+        const RmBtn = document.createElement("remove");
+        const editRmBtnContainer = document.createElement("thosebtns");
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.classList.add("boxCheck");
+        editRmBtnContainer.setAttribute("id", i);
+        editBtn.textContent = "Edit";
+        RmBtn.textContent = "Remove";
+        taskDes.textContent = tempArr.slice(-1)[0][3];
+        taskTitle.textContent = tempArr.slice(-1)[0][0];
+        taskDD.textContent = tempArr.slice(-1)[0][2];
+        taskPrio.textContent = tempArr.slice(-1)[0][1];
+        listOfTask.appendChild(taskTitle);
+
+        listOfTask.appendChild(taskDes);
+        listOfTask.appendChild(taskDD);
+        listOfTask.appendChild(taskPrio);
+
+        listOfTask.appendChild(editRmBtnContainer);
+        editRmBtnContainer.appendChild(checkbox);
+        editRmBtnContainer.appendChild(editBtn);
+        editRmBtnContainer.appendChild(RmBtn);
+
+        realtaskList.appendChild(listOfTask);
+      }
+    }
+  }
+}
+
+if (localStorage["projectArray"] != undefined) {
+  var stored_datas = JSON.parse(localStorage["projectArray"]);
+  localStorage.setItem("projectArray", "[]");
+  localStorage.setItem("taskArray", "[]");
+}
+
+if (localStorage["taskArray"] != undefined) {
+  var stored_Task = JSON.parse(localStorage["taskArray"]);
+  localStorage.setItem("projectArray", "[]");
+  localStorage.setItem("taskArray", "[]");
+}
+
+appendStorage();

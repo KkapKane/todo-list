@@ -155,7 +155,7 @@
           }
 
           .edit-MP {
-            @extend .LP;
+            @extend .edit-LP;
 
             border: 2px solid yellow;
             &:hover {
@@ -164,7 +164,7 @@
           }
 
           .edit-HP {
-            @extend .LP;
+            @extend .edit-LP;
             border: 2px solid red;
             &:hover {
               background-color: red;
